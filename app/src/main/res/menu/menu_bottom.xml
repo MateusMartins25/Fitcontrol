@@ -1,0 +1,28 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/nav_inicio"
+        android:icon="@drawable/ic_user"
+        android:title="Início"/>
+
+    <item
+        android:id="@+id/nav_treinos"
+        android:icon="@drawable/ic_treino"
+        android:title="Treinos"/>
+
+    <item
+        android:id="@+id/nav_produtos"
+        android:icon="@drawable/ic_produtos"
+        android:title="Perfil"/>
+
+    <item
+        android:id="@+id/nav_agenda"
+        android:icon="@drawable/ic_agenda"
+        android:title="Agenda"/>
+
+    <item
+        android:id="@+id/nav_perfil"
+        android:icon="@drawable/ic_user"
+        android:title="Perfil"/>
+
+</menu>

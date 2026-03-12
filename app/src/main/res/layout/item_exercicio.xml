@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+    android:layout_marginHorizontal="20dp"
+    android:layout_marginVertical="8dp"
+    app:cardCornerRadius="18dp"
+    app:cardElevation="6dp"
+    app:strokeWidth="0dp"
+    app:strokeColor="@android:color/transparent"
+    app:cardBackgroundColor="#2B2C31">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:padding="12dp">
+
+        <!-- Imagem -->
+        <ImageView
+            android:id="@+id/imgExercicio"
+            android:layout_width="58dp"
+            android:layout_height="58dp"
+            android:scaleType="centerCrop"
+            android:background="@drawable/bg_img_round"
+            android:src="@drawable/supino"/>
+
+        <!-- Textos -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:paddingStart="12dp">
+
+            <TextView
+                android:id="@+id/txtNome"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Supino Reto com Barra"
+                android:textColor="#FFFFFF"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:maxLines="1"/>
+
+            <TextView
+                android:id="@+id/txtSeries"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="4 Séries • 10 a 12 Reps"
+                android:textColor="#C2C2C2"
+                android:textSize="13sp"
+                android:layout_marginTop="2dp"/>
+
+            <TextView
+                android:id="@+id/txtRepeticoes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="10 repeticoes"
+                android:textColor="#C2C2C2"
+                android:textSize="13sp"
+                android:layout_marginTop="2dp"/>
+
+            <TextView
+                android:id="@+id/txtDescanso"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="90s descanso"
+                android:textColor="#9E9E9E"
+                android:textSize="12sp"
+                android:layout_marginTop="2dp"/>
+
+        </LinearLayout>
+
+        <!--check box -->
+        <ImageView
+            android:id="@+id/btnConcluir"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:src="@android:drawable/checkbox_off_background"
+            android:layout_alignParentEnd="true"/>
+
+    </LinearLayout>
+
+</com.google.android.material.card.MaterialCardView>
