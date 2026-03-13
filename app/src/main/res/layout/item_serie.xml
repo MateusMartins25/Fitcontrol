@@ -1,0 +1,39 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="8dp">
+
+    <TextView
+        android:id="@+id/txtNumeroSerie"
+        android:text="1"
+        android:textColor="@color/textPrimary"
+        android:layout_width="40dp"
+        android:layout_height="wrap_content"/>
+
+    <EditText
+        android:id="@+id/edtPeso"
+        android:hint="kg"
+        android:textColor="@color/textPrimary"
+        android:textColorHint="@color/textSecondary"
+        android:backgroundTint="@color/textSecondary"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"/>
+
+    <EditText
+        android:id="@+id/edtReps"
+        android:hint="reps"
+        android:textColor="@color/textPrimary"
+        android:textColorHint="@color/textSecondary"
+        android:backgroundTint="@color/textSecondary"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"/>
+
+    <ImageView
+        android:id="@+id/btnRemoverSerie"
+        android:src="@android:drawable/ic_delete"
+        android:layout_width="30dp"
+        android:layout_height="30dp"/>
+</LinearLayout>

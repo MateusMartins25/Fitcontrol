@@ -1,0 +1,68 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_marginHorizontal="32dp"
+    android:background="@drawable/bg_dialog"
+    android:padding="20dp"
+    android:elevation="10dp">
+
+    <TextView
+        android:id="@+id/txtTituloExercicio"
+        android:text="Supino"
+        android:textColor="@color/textPrimary"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="16dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <!-- CABEÇALHO -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="8dp">
+
+        <TextView
+            android:text="Série"
+            android:textColor="@color/textSecondary"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:text="Peso"
+            android:textColor="@color/textSecondary"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:text="Reps"
+            android:textColor="@color/textSecondary"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+    <!-- SÉRIES -->
+    <LinearLayout
+        android:id="@+id/containerSeries"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <!-- BOTÃO -->
+    <Button
+        android:id="@+id/btnAddSerie"
+        android:text="+ Adicionar série"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginTop="16dp"/>
+
+</LinearLayout>

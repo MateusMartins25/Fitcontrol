@@ -52,7 +52,7 @@ class InicioFragment : Fragment(R.layout.fragment_inicio) {
             lista.add(
                 Exercicio(
                     "Supino reto",
-                    "$series séries",
+                    series,
                     "$repeticoes repetições",
                     "$descanso descanso",
                     R.drawable.supino
@@ -62,7 +62,7 @@ class InicioFragment : Fragment(R.layout.fragment_inicio) {
             lista.add(
                 Exercicio(
                     "Supino inclinado",
-                    "$series séries",
+                    series,
                     "$repeticoes repetições",
                     "$descanso descanso",
                     R.drawable.supino_inclinado
@@ -72,7 +72,7 @@ class InicioFragment : Fragment(R.layout.fragment_inicio) {
             lista.add(
                 Exercicio(
                     "Cross Over",
-                    "4 séries",
+                    series,
                     "10 repetições",
                     "$descanso descanso",
                     R.drawable.cross_over
@@ -82,7 +82,7 @@ class InicioFragment : Fragment(R.layout.fragment_inicio) {
             lista.add(
                 Exercicio(
                     "Tríceps máquina",
-                    "4 séries",
+                    series,
                     "8 repetições",
                     "$descanso descanso",
                     R.drawable.triceps_maquina

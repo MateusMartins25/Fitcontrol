@@ -3,9 +3,12 @@ package com.example.myapplication
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.bottomsheet.BottomSheetDialog
 
 class ExercicioAdapter(private val lista: MutableList<Exercicio>) :
     RecyclerView.Adapter<ExercicioAdapter.ViewHolder>() {
@@ -26,7 +29,7 @@ class ExercicioAdapter(private val lista: MutableList<Exercicio>) :
         val exercicio = lista[position]
 
         holder.nome.text = exercicio.nome
-        holder.serie.text = exercicio.serie
+        holder.serie.text = "${exercicio.serie} séries"
         holder.repeticoes.text = exercicio.repeticoes
         holder.descanso.text = exercicio.descanso
         holder.imagem.setImageResource(exercicio.imagem)
@@ -45,7 +48,97 @@ class ExercicioAdapter(private val lista: MutableList<Exercicio>) :
             notifyItemChanged(position)
 
         }
+
+        // 🔥 CLIQUE NO ITEM PARA ABRIR O BOTTOM SHEET
+        holder.itemView.setOnClickListener {
+
+            val dialog = android.app.Dialog(holder.itemView.context)
+
+            val view = LayoutInflater.from(holder.itemView.context)
+                .inflate(R.layout.dialog_exercicio, null)
+
+
+            dialog.setContentView(view)
+
+            dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+
+            // 👇 AQUI começa o código das séries
+            val containerSeries = view.findViewById<LinearLayout>(R.id.containerSeries)
+            val btnAddSerie = view.findViewById<Button>(R.id.btnAddSerie)
+
+            var numeroSerie = 1
+
+            fun atualizarNumeracaoSeries() {
+
+                for (i in 0 until containerSeries.childCount) {
+
+                    val view = containerSeries.getChildAt(i)
+
+                    val txtNumero = view.findViewById<TextView>(R.id.txtNumeroSerie)
+
+                    txtNumero.text = (i + 1).toString()
+                }
+
+                numeroSerie = containerSeries.childCount + 1
+            }
+
+            fun adicionarSerie() {
+
+                val serieView = LayoutInflater.from(holder.itemView.context)
+                    .inflate(R.layout.item_serie, containerSeries, false)
+
+                val txtNumero = serieView.findViewById<TextView>(R.id.txtNumeroSerie)
+                val btnRemover = serieView.findViewById<ImageView>(R.id.btnRemoverSerie)
+
+                txtNumero.text = numeroSerie.toString()
+
+                btnRemover.setOnClickListener {
+                    containerSeries.removeView(serieView)
+                    atualizarNumeracaoSeries()
+                }
+
+                containerSeries.addView(serieView)
+
+                numeroSerie++
+            }
+
+
+            fun gerarSeries(qtdSeries: Int) {
+
+                containerSeries.removeAllViews()
+
+                for (i in 1..qtdSeries) {
+                    adicionarSerie()
+                }
+
+            }
+
+            val qtdSeries = exercicio.serie
+            gerarSeries(qtdSeries)
+
+
+            btnAddSerie.setOnClickListener {
+                adicionarSerie()
+            }
+
+            dialog.show()
+
+            val width = (holder.itemView.context.resources.displayMetrics.widthPixels * 0.85).toInt()
+
+            dialog.window?.setLayout(
+                width,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            )
+
+            val anim = android.view.animation.AnimationUtils.loadAnimation(
+                holder.itemView.context,
+                R.anim.popup_scale_in
+            )
+
+            view.startAnimation(anim)
+        }
     }
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
@@ -55,16 +148,13 @@ class ExercicioAdapter(private val lista: MutableList<Exercicio>) :
         return ViewHolder(view)
     }
 
+    override fun getItemCount(): Int {
+        return lista.size
+    }
 
     fun atualizarLista(novaLista: List<Exercicio>) {
         lista.clear()
         lista.addAll(novaLista)
         notifyDataSetChanged()
     }
-
-    override fun getItemCount(): Int {
-        return lista.size
-    }
-
-
 }
