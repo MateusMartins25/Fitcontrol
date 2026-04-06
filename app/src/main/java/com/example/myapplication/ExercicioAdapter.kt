@@ -49,7 +49,6 @@ class ExercicioAdapter(private val lista: MutableList<Exercicio>) :
 
         }
 
-        // 🔥 CLIQUE NO ITEM PARA ABRIR O BOTTOM SHEET
         holder.itemView.setOnClickListener {
 
             val dialog = android.app.Dialog(holder.itemView.context)
@@ -61,8 +60,6 @@ class ExercicioAdapter(private val lista: MutableList<Exercicio>) :
             dialog.setContentView(view)
 
             dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
-
-            // 👇 AQUI começa o código das séries
             val containerSeries = view.findViewById<LinearLayout>(R.id.containerSeries)
             val btnAddSerie = view.findViewById<Button>(R.id.btnAddSerie)
 
@@ -138,7 +135,6 @@ class ExercicioAdapter(private val lista: MutableList<Exercicio>) :
             view.startAnimation(anim)
         }
     }
-
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 

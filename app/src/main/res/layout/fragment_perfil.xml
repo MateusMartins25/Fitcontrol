@@ -162,7 +162,8 @@
 
             <include layout="@layout/cofiguracoes_usuario"/>
             <include layout="@layout/ajuda_suporte"/>
-            <include layout="@layout/sair"/>
+            <include android:id="@+id/btnLogout"
+            layout="@layout/sair"/>
 
         </LinearLayout>
     </LinearLayout>

@@ -63,6 +63,8 @@
         android:text="+ Adicionar série"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:layout_marginTop="16dp"/>
+        android:layout_marginTop="16dp"
+        android:textColor="#000"
+        android:backgroundTint="#E5C14D"/>
 
 </LinearLayout>

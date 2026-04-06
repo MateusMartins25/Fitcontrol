@@ -41,7 +41,7 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 R.id.nav_produtos -> {
-                    //loadFragment(PerfilFragment())
+                    loadFragment(fragment_produtos())
                     true
                 }
 

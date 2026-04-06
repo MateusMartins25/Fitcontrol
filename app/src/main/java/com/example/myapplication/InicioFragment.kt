@@ -14,6 +14,7 @@ import com.spotify.android.appremote.api.ConnectionParams
 import com.spotify.android.appremote.api.Connector
 import com.spotify.android.appremote.api.SpotifyAppRemote
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.MutableLiveData
 import com.example.myapplication.ExerciciosViewModel
 
 
@@ -36,6 +37,7 @@ class InicioFragment : Fragment(R.layout.fragment_inicio) {
         super.onViewCreated(view, savedInstanceState)
 
         val recycler = view.findViewById<RecyclerView>(R.id.listaExercicios)
+        val recyclerAmanha = view.findViewById<RecyclerView>(R.id.listaamanha)
 
         val series = 4
         val repeticoes = "8-10"
@@ -44,6 +46,8 @@ class InicioFragment : Fragment(R.layout.fragment_inicio) {
         val btnPrev = view.findViewById<Button>(R.id.btnPrev)
         val btnPause = view.findViewById<Button>(R.id.btnPause)
         val btnNext = view.findViewById<Button>(R.id.btnNext)
+
+//------------ Fim da Lista de hoje ------------------
 
         if (viewModel.listaExercicios.value.isNullOrEmpty()) {
 
@@ -91,13 +95,56 @@ class InicioFragment : Fragment(R.layout.fragment_inicio) {
 
             viewModel.listaExercicios.value = lista
         }
+ //       viewModel.listaExercicios.postValue(viewModel.listaExercicios.value)
+        recycler.layoutManager = LinearLayoutManager(requireContext())
+        val adapter = ExercicioAdapter(mutableListOf())
+        recycler.adapter = adapter
 
-        viewModel.listaExercicios.postValue(viewModel.listaExercicios.value)
+        viewModel.listaExercicios.observe(viewLifecycleOwner) { lista ->
+            adapter.atualizarLista(lista)
+        }
+//------------ Fim da Lista de hoje ------------------
+
+//------------ Lista do proximo dia ------------------
+        if (viewModel.treinoAmanha.value.isNullOrEmpty()) {
+
+            val listaAmanha = mutableListOf<Exercicio>()
+
+            listaAmanha.add(
+                Exercicio(
+                    "Extensora",
+                    series,
+                    "$repeticoes repetições",
+                    "$descanso descanso",
+                    R.drawable.supino
+                )
+            )
+
+            listaAmanha.add(
+                Exercicio(
+                    "Leg Pres",
+                    series,
+                    "$repeticoes repetições",
+                    "$descanso descanso",
+                    R.drawable.supino_inclinado
+                )
+            )
+
+            viewModel.treinoAmanha.value = listaAmanha
+        }
+        recyclerAmanha.layoutManager = LinearLayoutManager(requireContext())
+        val adapterAmanha = ExercicioAdapter(mutableListOf())
+        recyclerAmanha.adapter = adapterAmanha
+
+        viewModel.treinoAmanha.observe(viewLifecycleOwner) { lista ->
+            adapterAmanha.atualizarLista(lista)
+        }
+//------------ Fim da Lista do proximo dia ------------------
+// -------------- Spotify ---------------
 
         txtTrack = view.findViewById(R.id.txtTrack)
         txtArtist = view.findViewById(R.id.txtArtist)
         imgAlbum = view.findViewById(R.id.imgAlbum)
-
         connectSpotify()
 
         btnPrev.setOnClickListener {
@@ -112,13 +159,6 @@ class InicioFragment : Fragment(R.layout.fragment_inicio) {
             spotifyAppRemote?.playerApi?.skipNext()
         }
 
-        recycler.layoutManager = LinearLayoutManager(requireContext())
-        val adapter = ExercicioAdapter(mutableListOf())
-        recycler.adapter = adapter
-
-        viewModel.listaExercicios.observe(viewLifecycleOwner) { lista ->
-            adapter.atualizarLista(lista)
-        }
     }
 
     private fun connectSpotify() {
@@ -168,4 +208,5 @@ class InicioFragment : Fragment(R.layout.fragment_inicio) {
         super.onStop()
         SpotifyAppRemote.disconnect(spotifyAppRemote)
     }
+//-------------- Fim Spotify -----------------
 }

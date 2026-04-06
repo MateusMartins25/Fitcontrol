@@ -1,0 +1,6 @@
+<androidx.recyclerview.widget.RecyclerView android:id="@+id/recyclerProdutos"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#1E1E1E"
+    android:padding="10dp"
+    xmlns:android="http://schemas.android.com/apk/res/android" />

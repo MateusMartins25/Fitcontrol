@@ -12,6 +12,8 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.google.firebase.auth.FirebaseAuth
+import android.widget.Toast
 
 
 class LoginActivity : AppCompatActivity() {
@@ -21,35 +23,55 @@ class LoginActivity : AppCompatActivity() {
         setContentView(R.layout.activity_login)
 
         val editEmail = findViewById<EditText>(R.id.editEmail)
-
-
         val prefs = getSharedPreferences("loginPrefs", MODE_PRIVATE)
         val emailSalvo = prefs.getString("email", "")
         editEmail.setText(emailSalvo)
-
-
-
         val logo = findViewById<ImageView>(R.id.logo)
         val solicitar = findViewById<TextView>(R.id.txtSolicitar)
         val botao = findViewById<Button>(R.id.btnLogin)
-
         val animation = AnimationUtils.loadAnimation(this, R.anim.logo_animation)
 
         logo.startAnimation(animation)
 
         botao.setOnClickListener {
 
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
+            val auth = FirebaseAuth.getInstance()
 
+            val email = editEmail.text.toString().trim()
+            val senha = "123456"
 
-            val prefs = getSharedPreferences("loginPrefs", MODE_PRIVATE)
-            val editor = prefs.edit()
+            if (email.isEmpty()) {
+                Toast.makeText(this, "Digite um email", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
 
-            editor.putString("email", editEmail.getText().toString())
-            editor.apply()
+            auth.signInWithEmailAndPassword(email, senha)
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
 
-            finish()
+                        val intent = Intent(this, MainActivity::class.java)
+                        startActivity(intent)
+                        finish()
+
+                    } else {
+
+                        val erro = task.exception
+
+                        val mensagem = when (erro) {
+
+                            is com.google.firebase.auth.FirebaseAuthInvalidUserException ->
+                                "Usuário não encontrado 😕"
+
+                            is com.google.firebase.auth.FirebaseAuthInvalidCredentialsException ->
+                                "Email ou senha inválidos 🔐"
+
+                            else ->
+                                "Erro ao fazer login. Tente novamente."
+                        }
+
+                        Toast.makeText(this, mensagem, Toast.LENGTH_SHORT).show()
+                    }
+                }
 
         }
 
