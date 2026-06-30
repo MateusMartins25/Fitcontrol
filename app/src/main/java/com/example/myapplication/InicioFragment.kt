@@ -1,212 +1,287 @@
 package com.example.myapplication
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
-import android.util.Log
+import android.os.Handler
+import android.os.Looper
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.TextView
+import android.widget.Toast
+import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.bottomnavigation.BottomNavigationView
+import androidx.lifecycle.lifecycleScope
+import com.example.myapplication.produto.CadastroProdutoActivity
+import com.example.myapplication.repository.UsuarioRepository
+import com.example.myapplication.ui.exercicio.CadastroExercicioActivity
+import com.example.myapplication.ui.treino.CadastroTreinoActivity
+import com.example.myapplication.ui.usuario.CadastroUsuarioActivity
 import com.spotify.android.appremote.api.ConnectionParams
 import com.spotify.android.appremote.api.Connector
 import com.spotify.android.appremote.api.SpotifyAppRemote
-import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.MutableLiveData
-import com.example.myapplication.ExerciciosViewModel
+import com.spotify.protocol.types.PlayerState
+import com.spotify.protocol.types.Track
+import kotlinx.coroutines.launch
 
-
-class InicioFragment : Fragment(R.layout.fragment_inicio) {
-
-    private lateinit var txtTrack: TextView
-    private lateinit var txtArtist: TextView
-    private lateinit var imgAlbum: ImageView
-    private val viewModel: ExerciciosViewModel by activityViewModels()
-
-    companion object {
-        private const val CLIENT_ID = "8e63a9c9aeae49829d445dd8e33482d5"
-        private const val REDIRECT_URI = "com.example.myapplication://callback"
-        private const val REQUEST_CODE = 1337
-    }
+class InicioFragment : Fragment() {
 
     private var spotifyAppRemote: SpotifyAppRemote? = null
+    private val CLIENT_ID = "8e63a9c9aeae49829d445dd8e33482d5"
+    private val REDIRECT_URI = "com.example.myapplication://callback"
+
+    private lateinit var cardSpotify: CardView
+    private lateinit var ivAlbumArt: ImageView
+    private lateinit var tvTrackName: TextView
+    private lateinit var tvArtistName: TextView
+    private lateinit var btnPlayPause: Button
+    private lateinit var btnPrevious: Button
+    private lateinit var btnNext: Button
+    private lateinit var progressTrack: ProgressBar
+    private lateinit var tvCurrentTime: TextView
+    private lateinit var tvTotalTime: TextView
+    private lateinit var tvSpotifyOpen: TextView
+
+    private var isPlaying = false
+    private val handler = Handler(Looper.getMainLooper())
+    private var trackDurationMs: Long = 0L
+    private var trackPositionMs: Long = 0L
+
+    private val progressUpdater = object : Runnable {
+        override fun run() {
+            if (isPlaying && trackDurationMs > 0) {
+                trackPositionMs += 1000
+                val progress = ((trackPositionMs.toFloat() / trackDurationMs) * 100).toInt()
+                progressTrack.progress = progress.coerceIn(0, 100)
+                tvCurrentTime.text = formatMillis(trackPositionMs)
+            }
+            handler.postDelayed(this, 1000)
+        }
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        return inflater.inflate(R.layout.fragment_inicio, container, false)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        bindViews(view)
+        carregarNomeUsuario(view)
+        setupQuickAccessButtons(view)
+        setupSpotifyControls()
+        setupAdminView(view)
+    }
 
-        val recycler = view.findViewById<RecyclerView>(R.id.listaExercicios)
-        val recyclerAmanha = view.findViewById<RecyclerView>(R.id.listaamanha)
-
-        val series = 4
-        val repeticoes = "8-10"
-        val descanso = "60s"
-
-        val btnPrev = view.findViewById<Button>(R.id.btnPrev)
-        val btnPause = view.findViewById<Button>(R.id.btnPause)
-        val btnNext = view.findViewById<Button>(R.id.btnNext)
-
-//------------ Fim da Lista de hoje ------------------
-
-        if (viewModel.listaExercicios.value.isNullOrEmpty()) {
-
-            val lista = mutableListOf<Exercicio>()
-
-            lista.add(
-                Exercicio(
-                    "Supino reto",
-                    series,
-                    "$repeticoes repetições",
-                    "$descanso descanso",
-                    R.drawable.supino
-                )
-            )
-
-            lista.add(
-                Exercicio(
-                    "Supino inclinado",
-                    series,
-                    "$repeticoes repetições",
-                    "$descanso descanso",
-                    R.drawable.supino_inclinado
-                )
-            )
-
-            lista.add(
-                Exercicio(
-                    "Cross Over",
-                    series,
-                    "10 repetições",
-                    "$descanso descanso",
-                    R.drawable.cross_over
-                )
-            )
-
-            lista.add(
-                Exercicio(
-                    "Tríceps máquina",
-                    series,
-                    "8 repetições",
-                    "$descanso descanso",
-                    R.drawable.triceps_maquina
-                )
-            )
-
-            viewModel.listaExercicios.value = lista
-        }
- //       viewModel.listaExercicios.postValue(viewModel.listaExercicios.value)
-        recycler.layoutManager = LinearLayoutManager(requireContext())
-        val adapter = ExercicioAdapter(mutableListOf())
-        recycler.adapter = adapter
-
-        viewModel.listaExercicios.observe(viewLifecycleOwner) { lista ->
-            adapter.atualizarLista(lista)
-        }
-//------------ Fim da Lista de hoje ------------------
-
-//------------ Lista do proximo dia ------------------
-        if (viewModel.treinoAmanha.value.isNullOrEmpty()) {
-
-            val listaAmanha = mutableListOf<Exercicio>()
-
-            listaAmanha.add(
-                Exercicio(
-                    "Extensora",
-                    series,
-                    "$repeticoes repetições",
-                    "$descanso descanso",
-                    R.drawable.supino
-                )
-            )
-
-            listaAmanha.add(
-                Exercicio(
-                    "Leg Pres",
-                    series,
-                    "$repeticoes repetições",
-                    "$descanso descanso",
-                    R.drawable.supino_inclinado
-                )
-            )
-
-            viewModel.treinoAmanha.value = listaAmanha
-        }
-        recyclerAmanha.layoutManager = LinearLayoutManager(requireContext())
-        val adapterAmanha = ExercicioAdapter(mutableListOf())
-        recyclerAmanha.adapter = adapterAmanha
-
-        viewModel.treinoAmanha.observe(viewLifecycleOwner) { lista ->
-            adapterAmanha.atualizarLista(lista)
-        }
-//------------ Fim da Lista do proximo dia ------------------
-// -------------- Spotify ---------------
-
-        txtTrack = view.findViewById(R.id.txtTrack)
-        txtArtist = view.findViewById(R.id.txtArtist)
-        imgAlbum = view.findViewById(R.id.imgAlbum)
+    override fun onStart() {
+        super.onStart()
         connectSpotify()
+    }
 
-        btnPrev.setOnClickListener {
-            spotifyAppRemote?.playerApi?.skipPrevious()
-        }
+    override fun onStop() {
+        super.onStop()
+        handler.removeCallbacks(progressUpdater)
+        SpotifyAppRemote.disconnect(spotifyAppRemote)
+        spotifyAppRemote = null
+    }
 
-        btnPause.setOnClickListener {
-            spotifyAppRemote?.playerApi?.pause()
-        }
-
-        btnNext.setOnClickListener {
-            spotifyAppRemote?.playerApi?.skipNext()
-        }
-
+    private fun bindViews(view: View) {
+        cardSpotify    = view.findViewById(R.id.cardSpotify)
+        ivAlbumArt     = view.findViewById(R.id.ivAlbumArt)
+        tvTrackName    = view.findViewById(R.id.tvTrackName)
+        tvArtistName   = view.findViewById(R.id.tvArtistName)
+        btnPlayPause   = view.findViewById(R.id.btnPlayPause)
+        btnPrevious    = view.findViewById(R.id.btnPrevious)
+        btnNext        = view.findViewById(R.id.btnNext)
+        progressTrack  = view.findViewById(R.id.progressTrack)
+        tvCurrentTime  = view.findViewById(R.id.tvCurrentTime)
+        tvTotalTime    = view.findViewById(R.id.tvTotalTime)
+        tvSpotifyOpen  = view.findViewById(R.id.tvSpotifyOpen)
     }
 
     private fun connectSpotify() {
-
         val connectionParams = ConnectionParams.Builder(CLIENT_ID)
             .setRedirectUri(REDIRECT_URI)
             .showAuthView(true)
             .build()
 
         SpotifyAppRemote.connect(
-            requireActivity(), connectionParams,
+            requireContext(),
+            connectionParams,
             object : Connector.ConnectionListener {
 
                 override fun onConnected(appRemote: SpotifyAppRemote) {
                     spotifyAppRemote = appRemote
-                    Log.d("SPOTIFY", "Conectado!")
-
-                    spotifyAppRemote?.playerApi?.play("spotify:playlist:37i9dQZF1DX70RN3TfWWJh")
-
-                    spotifyAppRemote?.playerApi
-                        ?.subscribeToPlayerState()
-                        ?.setEventCallback { playerState ->
-
-                            val track = playerState.track
-
-                            if (track != null) {
-
-                                txtTrack.text = track.name
-                                txtArtist.text = track.artist.name
-
-                                spotifyAppRemote?.imagesApi
-                                    ?.getImage(track.imageUri)
-                                    ?.setResultCallback { bitmap ->
-                                        imgAlbum.setImageBitmap(bitmap)
-                                    }
-                            }
-                        }
+                    subscribeToPlayerState()
+                    handler.post(progressUpdater)
                 }
 
                 override fun onFailure(throwable: Throwable) {
-                    Log.e("SPOTIFY", "Erro", throwable)
+                    showSpotifyDisconnected()
                 }
-            })
+            }
+        )
     }
 
-    override fun onStop() {
-        super.onStop()
-        SpotifyAppRemote.disconnect(spotifyAppRemote)
+    private fun subscribeToPlayerState() {
+        spotifyAppRemote?.playerApi
+            ?.subscribeToPlayerState()
+            ?.setEventCallback { playerState: PlayerState ->
+                requireActivity().runOnUiThread {
+                    updatePlayerUI(playerState)
+                }
+            }
     }
-//-------------- Fim Spotify -----------------
+
+    private fun updatePlayerUI(playerState: PlayerState) {
+        val track: Track? = playerState.track ?: return
+
+        isPlaying       = !playerState.isPaused
+        trackDurationMs = track!!.duration
+        trackPositionMs = playerState.playbackPosition
+
+        tvTrackName.text  = track.name
+        tvArtistName.text = track.artist.name
+
+        val progress = if (trackDurationMs > 0)
+            ((trackPositionMs.toFloat() / trackDurationMs) * 100).toInt()
+        else 0
+        progressTrack.progress = progress.coerceIn(0, 100)
+        tvCurrentTime.text = formatMillis(trackPositionMs)
+        tvTotalTime.text   = formatMillis(trackDurationMs)
+
+        track.imageUri?.let { uri ->
+            spotifyAppRemote?.imagesApi
+                ?.getImage(uri)
+                ?.setResultCallback { bitmap ->
+                    requireActivity().runOnUiThread {
+                        ivAlbumArt.setImageBitmap(bitmap)
+                    }
+                }
+        }
+    }
+
+    private fun showSpotifyDisconnected() {
+        tvTrackName.text  = "Spotify não conectado"
+        tvArtistName.text = "Abra o app para conectar"
+        btnPlayPause.isEnabled = false
+        btnPrevious.isEnabled  = false
+        btnNext.isEnabled      = false
+    }
+
+    private fun setupSpotifyControls() {
+        btnPlayPause.setOnClickListener {
+            val remote = spotifyAppRemote ?: return@setOnClickListener
+            if (isPlaying) {
+                remote.playerApi.pause()
+            } else {
+                remote.playerApi.resume()
+            }
+        }
+
+        btnPrevious.setOnClickListener {
+            spotifyAppRemote?.playerApi?.skipPrevious()
+        }
+
+        btnNext.setOnClickListener {
+            spotifyAppRemote?.playerApi?.skipNext()
+        }
+
+        val openSpotify = {
+            try {
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse("spotify:"))
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                startActivity(intent)
+            } catch (e: android.content.ActivityNotFoundException) {
+                val storeIntent = Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=com.spotify.music"))
+                try {
+                    startActivity(storeIntent)
+                } catch (e2: android.content.ActivityNotFoundException) {
+                    android.widget.Toast.makeText(requireContext(), "Spotify não está instalado", android.widget.Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+
+        tvSpotifyOpen.setOnClickListener { openSpotify() }
+        cardSpotify.setOnClickListener { openSpotify() }
+    }
+
+    private fun carregarNomeUsuario(view: View) {
+        val tvUserName = view.findViewById<TextView>(R.id.tvUserName)
+        lifecycleScope.launch {
+            val result = UsuarioRepository().buscarUsuarioAtual()
+            if (result is com.example.myapplication.util.Resource.Success) {
+                val primeiroNome = result.data.nome.trim().split(" ").firstOrNull() ?: result.data.nome
+                tvUserName.text = "Olá, $primeiroNome!"
+            }
+        }
+    }
+
+    private fun setupAdminView(view: View) {
+        val sectionAdmin   = view.findViewById<View>(R.id.sectionAdminInicio)
+        val labelTreino    = view.findViewById<View>(R.id.labelTreinoHoje)
+        val cardTreino     = view.findViewById<View>(R.id.cardTreinoHoje)
+        val labelMusica    = view.findViewById<View>(R.id.labelMusica)
+
+        lifecycleScope.launch {
+            val isAdmin = UsuarioRepository().usuarioAtualEhAdmin()
+            if (isAdmin) {
+                sectionAdmin.visibility = View.VISIBLE
+            } else {
+                labelTreino.visibility = View.VISIBLE
+                cardTreino.visibility  = View.VISIBLE
+                labelMusica.visibility = View.VISIBLE
+                cardSpotify.visibility = View.VISIBLE
+            }
+        }
+
+        view.findViewById<View>(R.id.adminBtnProduto).setOnClickListener {
+            startActivity(Intent(requireContext(), CadastroProdutoActivity::class.java))
+        }
+        view.findViewById<View>(R.id.adminBtnExercicio).setOnClickListener {
+            startActivity(Intent(requireContext(), CadastroExercicioActivity::class.java))
+        }
+        view.findViewById<View>(R.id.adminBtnTreino).setOnClickListener {
+            startActivity(Intent(requireContext(), CadastroTreinoActivity::class.java))
+        }
+        view.findViewById<View>(R.id.adminBtnUsuario).setOnClickListener {
+            startActivity(Intent(requireContext(), CadastroUsuarioActivity::class.java))
+        }
+    }
+
+    private fun setupQuickAccessButtons(view: View) {
+        view.findViewById<View>(R.id.btnHistorico).setOnClickListener {
+            Toast.makeText(requireContext(), "Histórico", Toast.LENGTH_SHORT).show()
+        }
+
+        view.findViewById<View>(R.id.btnEvolucao).setOnClickListener {
+            Toast.makeText(requireContext(), "Evolução", Toast.LENGTH_SHORT).show()
+        }
+
+        view.findViewById<View>(R.id.btnDesafios).setOnClickListener {
+            Toast.makeText(requireContext(), "Desafios", Toast.LENGTH_SHORT).show()
+        }
+
+        view.findViewById<View>(R.id.btnEstatisticas).setOnClickListener {
+            Toast.makeText(requireContext(), "Estatísticas", Toast.LENGTH_SHORT).show()
+        }
+
+        view.findViewById<View>(R.id.btnContinuar).setOnClickListener {
+            Toast.makeText(requireContext(), "Continuar treino", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun formatMillis(ms: Long): String {
+        val totalSec = ms / 1000
+        val min = totalSec / 60
+        val sec = totalSec % 60
+        return "%d:%02d".format(min, sec)
+    }
 }

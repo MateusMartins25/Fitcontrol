@@ -1,35 +1,62 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:background="@drawable/card_option"
-    android:padding="12dp"
-    android:layout_marginBottom="10dp">
+    android:layout_margin="8dp"
+    app:cardCornerRadius="16dp"
+    app:cardBackgroundColor="#2A2A2A">
 
-    <ImageView
-        android:id="@+id/imgProduto"
-        android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:scaleType="centerCrop"
-        android:src="@drawable/whey"/>
-
-    <TextView
-        android:id="@+id/txtNome"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Whey Protein"
-        android:textColor="#FFFFFF"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        android:layout_marginTop="8dp"/>
+        android:orientation="vertical"
+        android:background="@drawable/card_stats"
+        app:cardElevation="0dp"
+        app:strokeWidth="0dp"
+        android:padding="12dp">
 
-    <TextView
-        android:id="@+id/txtPreco"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="R$ 120,00"
-        android:textColor="#FFD54F"
-        android:textSize="14sp"/>
+        <ImageView
+            android:id="@+id/imgProduto"
+            android:layout_width="match_parent"
+            android:layout_height="140dp"
+            android:scaleType="fitCenter"/>
+
+        <TextView
+            android:id="@+id/txtNome"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:layout_marginTop="8dp"/>
+
+        <TextView
+            android:id="@+id/txtDescricao"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#AAAAAA"
+            android:textSize="12sp"
+            android:layout_marginTop="4dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/txtPreco"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textColor="#E5C14D"
+                android:textStyle="bold"
+                android:textSize="22sp"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
 
 </LinearLayout>

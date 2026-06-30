@@ -1,7 +1,9 @@
 package com.example.myapplication
 
-data class Produto(
+data class ProdutoClass(
     val nome: String,
     val preco: String,
-    val imagem: Int
+    val descricao:String,
+    val imagem: Int,
+    val categoria: String
 )

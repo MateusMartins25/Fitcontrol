@@ -1,0 +1,51 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(uid) {
+      return isSignedIn() && request.auth.uid == uid;
+    }
+
+    function isAdmin() {
+      return isSignedIn() &&
+        exists(/databases/$(database)/documents/usuarios/$(request.auth.uid)) &&
+        get(/databases/$(database)/documents/usuarios/$(request.auth.uid)).data.administrador == true;
+    }
+
+    // usuarios/{uid}
+    match /usuarios/{uid} {
+      allow read: if isSignedIn();
+      allow create: if isOwner(uid) || isAdmin();
+      allow update: if (isOwner(uid) && request.resource.data.administrador == resource.data.administrador)
+                    || isAdmin();
+      allow delete: if isAdmin();
+
+      // usuarios/{uid}/treinos/{treinoId}
+      match /treinos/{treinoId} {
+        allow read, write: if isOwner(uid) || isAdmin();
+      }
+    }
+
+    // produtos/{produtoId}
+    match /produtos/{produtoId} {
+      allow read: if isSignedIn();
+      allow write: if isAdmin();
+    }
+
+    // exercicios/{exercicioId}
+    match /exercicios/{exercicioId} {
+      allow read: if isSignedIn();
+      allow write: if isAdmin();
+    }
+
+    // Bloqueia qualquer outra coleção não mapeada
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

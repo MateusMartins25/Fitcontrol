@@ -2,4 +2,44 @@
     <string name="app_name">FitControl</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <!-- Cadastro de Produto -->
+    <string name="title_cadastro_produto">Cadastro de Produto</string>
+    <string name="hint_pesquisar_produto">Pesquisar produto existente…</string>
+    <string name="label_imagem_produto">IMAGEM DO PRODUTO</string>
+    <string name="label_adicionar_imagem">Adicionar imagem</string>
+    <string name="desc_adicionar_imagem">Toque para escolher da galeria ou tirar uma foto</string>
+    <string name="label_nome_produto">NOME DO PRODUTO</string>
+    <string name="hint_nome_produto">Ex: Whey Protein Chocolate 900g</string>
+    <string name="label_descricao">DESCRIÇÃO</string>
+    <string name="hint_descricao">Ex: Proteína de alta qualidade, ideal para recuperação pós-treino.</string>
+    <string name="label_status">STATUS</string>
+    <string name="status_disponivel">Disponível</string>
+    <string name="status_indisponivel">Indisponível</string>
+    <string name="label_valor">VALOR</string>
+    <string name="hint_valor">0,00</string>
+    <string name="btn_salvar_produto">Salvar Produto</string>
+    <string name="prefix_real">R$</string>
+    <string name="badge_disponivel">Disponível</string>
+    <string name="cd_back">Voltar</string>
+    <string name="title_cadastro_exercicio">Cadastro de Exercício</string>
+    <string name="hint_pesquisar_exercicio">Pesquisar exercício existente…</string>
+    <string name="label_nome_exercicio">NOME DO EXERCÍCIO</string>
+    <string name="hint_nome_exercicio">Ex: Rosca Direta com Barra</string>
+    <string name="label_grupo_muscular">GRUPO MUSCULAR</string>
+    <string name="label_equipamento">EQUIPAMENTO</string>
+    <string name="label_series">SÉRIES</string>
+    <string name="hint_series">Ex: 3</string>
+    <string name="label_repeticoes">REPETIÇÕES</string>
+    <string name="hint_repeticoes">Ex: 12</string>
+    <string name="label_carga">CARGA (KG)</string>
+    <string name="hint_carga">Ex: 20</string>
+    <string name="label_descanso">DESCANSO (S)</string>
+    <string name="hint_descanso">Ex: 60</string>
+    <string name="label_dificuldade">DIFICULDADE</string>
+    <string name="label_instrucoes">INSTRUÇÕES DE EXECUÇÃO</string>
+    <string name="hint_instrucoes">Descreva como realizar o exercício corretamente, postura, respiração e pontos de atenção…</string>
+    <string name="btn_salvar_exercicio">Salvar Exercício</string>
+    <string name="dif_iniciante">Iniciante</string>
+    <string name="dif_medio">Médio</string>
+    <string name="dif_avancado">Avançado</string>
 </resources>

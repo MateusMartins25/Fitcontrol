@@ -1,0 +1,227 @@
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="12dp"
+    android:layout_marginTop="10dp"
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
+    app:cardBackgroundColor="#2A2A2A"
+    app:cardCornerRadius="20dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- Cabeçalho -->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:gravity="center"
+                android:background="@drawable/bg_data_treino"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/txtDia"
+                    android:text="14"
+                    android:textSize="22sp"
+                    android:textStyle="bold"
+                    android:textColor="#FFD54F"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/txtMes"
+                    android:text="ABR"
+                    android:textSize="14sp"
+                    android:textColor="#FFFFFF"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="12dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/txtNomeTreino"
+                    android:text="Treino A - Peito e Tríceps"
+                    android:textColor="#FFFFFF"
+                    android:textSize="19sp"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/txtDuracao"
+                    android:text="55 min"
+                    android:textColor="#AAAAAA"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="14dp"
+            android:layout_marginBottom="10dp"
+            android:background="#3C3C3C"/>
+        <!-- Exercícios -->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingVertical="6dp">
+
+            <TextView
+                android:id="@+id/txtExercicio1Nome"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Supino Reto"
+                android:textColor="#FFFFFF"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/txtExercicio1Series"
+                android:layout_width="45dp"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:text="4×8"
+                android:textColor="#9A9A9A"/>
+
+            <TextView
+                android:id="@+id/txtExercicio1Carga"
+                android:layout_width="65dp"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:text="80 kg"
+                android:textStyle="bold"
+                android:textColor="#FFD54F"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingVertical="6dp">
+
+            <TextView
+                android:id="@+id/txtExercicio2Nome"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Supino inclinado"
+                android:textColor="#FFFFFF"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/txtExercicio2Series"
+                android:layout_width="45dp"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:text="4×8"
+                android:textColor="#9A9A9A"/>
+
+            <TextView
+                android:id="@+id/txtExercicio2Carga"
+                android:layout_width="65dp"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:text="40 kg"
+                android:textStyle="bold"
+                android:textColor="#FFD54F"/>
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingVertical="6dp">
+
+            <TextView
+                android:id="@+id/txtExercicio3Nome"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Supino halter"
+                android:textColor="#FFFFFF"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/txtExercicio3Series"
+                android:layout_width="45dp"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:text="4×8"
+                android:textColor="#9A9A9A"/>
+
+            <TextView
+                android:id="@+id/txtExercicio3Carga"
+                android:layout_width="65dp"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:text="80 kg"
+                android:textStyle="bold"
+                android:textColor="#FFD54F"/>
+
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="1dp"
+            android:layout_marginBottom="12dp"
+            android:background="#3C3C3C"/>
+        <!-- Rodapé -->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="1dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/txtCalorias"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="420 kcal"
+                android:textColor="#FFD54F"/>
+
+            <TextView
+                android:id="@+id/txtVolume"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Vol. 6800 kg"
+                android:textColor="#FFFFFF"/>
+
+            <TextView
+                android:id="@+id/txtPercentual"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="88%"
+                android:textColor="#FFD54F"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</com.google.android.material.card.MaterialCardView>

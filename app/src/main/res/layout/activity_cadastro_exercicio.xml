@@ -1,0 +1,833 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/ex_bg_primary"
+    tools:context=".ui.exercicio.CadastroExercicioActivity">
+
+    <!-- ── Toolbar ──────────────────────────────────────────────────────── -->
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/ex_bg_primary"
+        app:elevation="0dp">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/ex_bg_primary"
+            app:contentInsetEnd="0dp"
+            app:contentInsetStart="0dp">
+
+            <ImageButton
+                android:id="@+id/btnBack"
+                android:layout_width="44dp"
+                android:layout_height="44dp"
+                android:layout_marginStart="8dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="Voltar"
+                android:src="@drawable/baseline_arrow_back_24"
+                app:tint="@color/ex_text_primary" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="52dp"
+                android:gravity="center"
+                android:text="@string/title_cadastro_exercicio"
+                android:textColor="@color/ex_text_primary"
+                android:textSize="17sp"
+                android:textStyle="bold" />
+
+            <ImageButton
+                android:id="@+id/btnMore"
+                android:layout_width="44dp"
+                android:layout_height="44dp"
+                android:layout_gravity="end"
+                android:layout_marginEnd="8dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="Mais opções"
+                android:src="@drawable/baseline_format_list_bulleted_24"
+                app:tint="@color/ex_text_primary" />
+
+        </androidx.appcompat.widget.Toolbar>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <!-- ── Scroll principal ─────────────────────────────────────────────── -->
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:paddingBottom="96dp"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingHorizontal="16dp"
+            android:paddingTop="12dp">
+
+            <!-- ── Busca ─────────────────────────────────────────────────── -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:background="@drawable/bg_search_bar"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingHorizontal="14dp">
+
+                <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:src="@drawable/baseline_gps_fixed_24"
+                    app:tint="@color/ex_text_hint" />
+
+                <EditText
+                    android:id="@+id/etSearchExercicio"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="10dp"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:hint="@string/hint_pesquisar_exercicio"
+                    android:imeOptions="actionSearch"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:textColor="@color/ex_text_primary"
+                    android:textColorHint="@color/ex_text_hint"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <!-- ── Card exercício encontrado ────────────────────────────── -->
+            <LinearLayout
+                android:id="@+id/cardExercicioEncontrado"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/bg_exercise_card"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="12dp"
+                android:visibility="gone"
+                tools:visibility="visible">
+
+                <!-- Ícone/thumb -->
+                <FrameLayout
+                    android:layout_width="44dp"
+                    android:layout_height="44dp"
+                    android:background="@drawable/bg_equip_icon"
+                    android:layout_marginEnd="12dp">
+
+                    <ImageView
+                        android:id="@+id/ivExercicioThumb"
+                        android:layout_width="22dp"
+                        android:layout_height="22dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_fitness"
+                        app:tint="#7B61FF" />
+                </FrameLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tvExercicioNome"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/ex_text_primary"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        tools:text="Supino Reto com Barra" />
+
+                    <TextView
+                        android:id="@+id/tvExercicioMeta"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:textColor="@color/ex_text_secondary"
+                        android:textSize="12sp"
+                        tools:text="Peito · Intermediário" />
+                </LinearLayout>
+
+                <!-- Badge Ativo -->
+                <TextView
+                    android:id="@+id/tvExercicioStatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_badge_ativo"
+                    android:paddingHorizontal="10dp"
+                    android:paddingVertical="4dp"
+                    android:text="Ativo"
+                    android:textColor="@color/ex_status_text"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <!-- ══════════════════════════════════════════════════════════ -->
+            <!-- ── NOME DO EXERCÍCIO ────────────────────────────────────── -->
+            <!-- ══════════════════════════════════════════════════════════ -->
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="22dp"
+                android:layout_marginBottom="8dp"
+                android:letterSpacing="0.12"
+                android:text="@string/label_nome_exercicio"
+                android:textColor="@color/ex_text_label"
+                android:textSize="11sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/etNomeExercicio"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/selector_ex_input"
+                android:hint="@string/hint_nome_exercicio"
+                android:inputType="textCapWords"
+                android:maxLines="1"
+                android:paddingHorizontal="14dp"
+                android:textColor="@color/ex_text_primary"
+                android:textColorHint="@color/ex_text_hint"
+                android:textSize="14sp" />
+
+            <!-- ══════════════════════════════════════════════════════════ -->
+            <!-- ── GRUPO MUSCULAR ──────────────────────────────────────── -->
+            <!-- ══════════════════════════════════════════════════════════ -->
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="22dp"
+                android:layout_marginBottom="10dp"
+                android:letterSpacing="0.12"
+                android:text="@string/label_grupo_muscular"
+                android:textColor="@color/ex_text_label"
+                android:textSize="11sp"
+                android:textStyle="bold" />
+
+            <!-- Linha 1: Peito · Costas · Bíceps · Tríceps -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/chipPeito"
+                    android:layout_width="wrap_content"
+                    android:layout_height="36dp"
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/bg_chip_normal"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:gravity="center"
+                    android:paddingHorizontal="14dp"
+                    android:text="Peito"
+                    android:textColor="@color/ex_text_secondary"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:id="@+id/chipCostas"
+                    android:layout_width="wrap_content"
+                    android:layout_height="36dp"
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/bg_chip_normal"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:gravity="center"
+                    android:paddingHorizontal="14dp"
+                    android:text="Costas"
+                    android:textColor="@color/ex_text_secondary"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:id="@+id/chipBiceps"
+                    android:layout_width="wrap_content"
+                    android:layout_height="36dp"
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/bg_chip_normal"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:gravity="center"
+                    android:paddingHorizontal="14dp"
+                    android:text="Bíceps"
+                    android:textColor="@color/ex_text_secondary"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:id="@+id/chipTriceps"
+                    android:layout_width="wrap_content"
+                    android:layout_height="36dp"
+                    android:background="@drawable/bg_chip_normal"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:gravity="center"
+                    android:paddingHorizontal="14dp"
+                    android:text="Tríceps"
+                    android:textColor="@color/ex_text_secondary"
+                    android:textSize="13sp" />
+            </LinearLayout>
+
+            <!-- Linha 2: Ombro · Pernas · Glúteos -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/chipOmbro"
+                    android:layout_width="wrap_content"
+                    android:layout_height="36dp"
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/bg_chip_normal"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:gravity="center"
+                    android:paddingHorizontal="14dp"
+                    android:text="Ombro"
+                    android:textColor="@color/ex_text_secondary"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:id="@+id/chipPernas"
+                    android:layout_width="wrap_content"
+                    android:layout_height="36dp"
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/bg_chip_normal"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:gravity="center"
+                    android:paddingHorizontal="14dp"
+                    android:text="Pernas"
+                    android:textColor="@color/ex_text_secondary"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:id="@+id/chipGluteos"
+                    android:layout_width="wrap_content"
+                    android:layout_height="36dp"
+                    android:background="@drawable/bg_chip_normal"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:gravity="center"
+                    android:paddingHorizontal="14dp"
+                    android:text="Glúteos"
+                    android:textColor="@color/ex_text_secondary"
+                    android:textSize="13sp" />
+            </LinearLayout>
+
+            <!-- Linha 3: Abdômen -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/chipAbdomen"
+                    android:layout_width="wrap_content"
+                    android:layout_height="36dp"
+                    android:background="@drawable/bg_chip_normal"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:gravity="center"
+                    android:paddingHorizontal="14dp"
+                    android:text="Abdômen"
+                    android:textColor="@color/ex_text_secondary"
+                    android:textSize="13sp" />
+            </LinearLayout>
+
+            <!-- ══════════════════════════════════════════════════════════ -->
+            <!-- ── EQUIPAMENTO ────────────────────────────────────────── -->
+            <!-- ══════════════════════════════════════════════════════════ -->
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="22dp"
+                android:layout_marginBottom="10dp"
+                android:letterSpacing="0.12"
+                android:text="@string/label_equipamento"
+                android:textColor="@color/ex_text_label"
+                android:textSize="11sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <!-- Barra -->
+                <LinearLayout
+                    android:id="@+id/equipBarra"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:layout_weight="1"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="8dp">
+
+                    <FrameLayout
+                        android:layout_width="44dp"
+                        android:layout_height="44dp"
+                        android:background="@drawable/bg_equip_icon">
+
+                        <ImageView
+                            android:id="@+id/ivIconBarra"
+                            android:layout_width="22dp"
+                            android:layout_height="22dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_fitness"
+                            app:tint="@color/ex_text_secondary" />
+                    </FrameLayout>
+
+                    <TextView
+                        android:id="@+id/tvLabelBarra"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:text="Barra"
+                        android:textColor="@color/ex_text_secondary"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+                <!-- Halter -->
+                <LinearLayout
+                    android:id="@+id/equipHalter"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:layout_weight="1"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="8dp">
+
+                    <FrameLayout
+                        android:layout_width="44dp"
+                        android:layout_height="44dp"
+                        android:background="@drawable/bg_equip_icon">
+
+                        <ImageView
+                            android:id="@+id/ivIconHalter"
+                            android:layout_width="22dp"
+                            android:layout_height="22dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_dumbbell"
+                            app:tint="@color/ex_text_secondary" />
+                    </FrameLayout>
+
+                    <TextView
+                        android:id="@+id/tvLabelHalter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:text="Halter"
+                        android:textColor="@color/ex_text_secondary"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+                <!-- Máquina -->
+                <LinearLayout
+                    android:id="@+id/equipMaquina"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:layout_weight="1"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="8dp">
+
+                    <FrameLayout
+                        android:layout_width="44dp"
+                        android:layout_height="44dp"
+                        android:background="@drawable/bg_equip_icon">
+
+                        <ImageView
+                            android:id="@+id/ivIconMaquina"
+                            android:layout_width="22dp"
+                            android:layout_height="22dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_machine"
+                            app:tint="@color/ex_text_secondary" />
+                    </FrameLayout>
+
+                    <TextView
+                        android:id="@+id/tvLabelMaquina"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:text="Máquina"
+                        android:textColor="@color/ex_text_secondary"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+                <!-- Livre -->
+                <LinearLayout
+                    android:id="@+id/equipLivre"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="8dp">
+
+                    <FrameLayout
+                        android:layout_width="44dp"
+                        android:layout_height="44dp"
+                        android:background="@drawable/bg_equip_icon">
+
+                        <ImageView
+                            android:id="@+id/ivIconLivre"
+                            android:layout_width="22dp"
+                            android:layout_height="22dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_person_run"
+                            app:tint="@color/ex_text_secondary" />
+                    </FrameLayout>
+
+                    <TextView
+                        android:id="@+id/tvLabelLivre"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:text="Livre"
+                        android:textColor="@color/ex_text_secondary"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <!-- ══════════════════════════════════════════════════════════ -->
+            <!-- ── SÉRIES / REPETIÇÕES ────────────────────────────────── -->
+            <!-- ══════════════════════════════════════════════════════════ -->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="22dp"
+                android:orientation="horizontal">
+
+                <!-- Séries -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="10dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:letterSpacing="0.12"
+                        android:text="@string/label_series"
+                        android:textColor="@color/ex_text_label"
+                        android:textSize="11sp"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:id="@+id/etSeries"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:background="@drawable/selector_ex_input"
+                        android:hint="@string/hint_series"
+                        android:inputType="number"
+                        android:maxLines="1"
+                        android:paddingHorizontal="14dp"
+                        android:textColor="@color/ex_text_primary"
+                        android:textColorHint="@color/ex_text_hint"
+                        android:textSize="14sp" />
+                </LinearLayout>
+
+                <!-- Repetições -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:letterSpacing="0.12"
+                        android:text="@string/label_repeticoes"
+                        android:textColor="@color/ex_text_label"
+                        android:textSize="11sp"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:id="@+id/etRepeticoes"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:background="@drawable/selector_ex_input"
+                        android:hint="@string/hint_repeticoes"
+                        android:inputType="number"
+                        android:maxLines="1"
+                        android:paddingHorizontal="14dp"
+                        android:textColor="@color/ex_text_primary"
+                        android:textColorHint="@color/ex_text_hint"
+                        android:textSize="14sp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- ══════════════════════════════════════════════════════════ -->
+            <!-- ── CARGA / DESCANSO ───────────────────────────────────── -->
+            <!-- ══════════════════════════════════════════════════════════ -->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:orientation="horizontal">
+
+                <!-- Carga -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="10dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:letterSpacing="0.12"
+                        android:text="@string/label_carga"
+                        android:textColor="@color/ex_text_label"
+                        android:textSize="11sp"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:id="@+id/etCarga"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:background="@drawable/selector_ex_input"
+                        android:hint="@string/hint_carga"
+                        android:inputType="numberDecimal"
+                        android:maxLines="1"
+                        android:paddingHorizontal="14dp"
+                        android:textColor="@color/ex_text_primary"
+                        android:textColorHint="@color/ex_text_hint"
+                        android:textSize="14sp" />
+                </LinearLayout>
+
+                <!-- Descanso -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:letterSpacing="0.12"
+                        android:text="@string/label_descanso"
+                        android:textColor="@color/ex_text_label"
+                        android:textSize="11sp"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:id="@+id/etDescanso"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:background="@drawable/selector_ex_input"
+                        android:hint="@string/hint_descanso"
+                        android:inputType="number"
+                        android:maxLines="1"
+                        android:paddingHorizontal="14dp"
+                        android:textColor="@color/ex_text_primary"
+                        android:textColorHint="@color/ex_text_hint"
+                        android:textSize="14sp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- ══════════════════════════════════════════════════════════ -->
+            <!-- ── DIFICULDADE ────────────────────────────────────────── -->
+            <!-- ══════════════════════════════════════════════════════════ -->
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="22dp"
+                android:layout_marginBottom="10dp"
+                android:letterSpacing="0.12"
+                android:text="@string/label_dificuldade"
+                android:textColor="@color/ex_text_label"
+                android:textSize="11sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <!-- Iniciante -->
+                <LinearLayout
+                    android:id="@+id/btnIniciante"
+                    android:layout_width="0dp"
+                    android:layout_height="44dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_dif_unselected"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <View
+                        android:id="@+id/dotIniciante"
+                        android:layout_width="8dp"
+                        android:layout_height="8dp"
+                        android:layout_marginEnd="7dp"
+                        android:background="@drawable/shape_dot_green" />
+
+                    <TextView
+                        android:id="@+id/tvIniciante"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/dif_iniciante"
+                        android:textColor="@color/ex_text_secondary"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <!-- Médio -->
+                <LinearLayout
+                    android:id="@+id/btnMedio"
+                    android:layout_width="0dp"
+                    android:layout_height="44dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_dif_unselected"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <View
+                        android:id="@+id/dotMedio"
+                        android:layout_width="8dp"
+                        android:layout_height="8dp"
+                        android:layout_marginEnd="7dp"
+                        android:background="@drawable/shape_dot_yellow" />
+
+                    <TextView
+                        android:id="@+id/tvMedio"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/dif_medio"
+                        android:textColor="@color/ex_text_secondary"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <!-- Avançado -->
+                <LinearLayout
+                    android:id="@+id/btnAvancado"
+                    android:layout_width="0dp"
+                    android:layout_height="44dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_dif_unselected"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <View
+                        android:id="@+id/dotAvancado"
+                        android:layout_width="8dp"
+                        android:layout_height="8dp"
+                        android:layout_marginEnd="7dp"
+                        android:background="@drawable/shape_dot_red" />
+
+                    <TextView
+                        android:id="@+id/tvAvancado"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/dif_avancado"
+                        android:textColor="@color/ex_text_secondary"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- ══════════════════════════════════════════════════════════ -->
+            <!-- ── INSTRUÇÕES DE EXECUÇÃO ─────────────────────────────── -->
+            <!-- ══════════════════════════════════════════════════════════ -->
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="22dp"
+                android:layout_marginBottom="8dp"
+                android:letterSpacing="0.12"
+                android:text="@string/label_instrucoes"
+                android:textColor="@color/ex_text_label"
+                android:textSize="11sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/etInstrucoes"
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:background="@drawable/selector_ex_input"
+                android:gravity="top"
+                android:hint="@string/hint_instrucoes"
+                android:inputType="textMultiLine|textCapSentences"
+                android:paddingHorizontal="14dp"
+                android:paddingVertical="12dp"
+                android:textColor="@color/ex_text_primary"
+                android:textColorHint="@color/ex_text_hint"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <!-- ── Botão Salvar fixo ─────────────────────────────────────────────── -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="@color/ex_bg_primary"
+        android:orientation="vertical"
+        android:paddingHorizontal="16dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="24dp">
+
+        <Button
+            android:id="@+id/btnSalvarExercicio"
+            android:layout_width="match_parent"
+            android:layout_height="54dp"
+            android:background="@drawable/bg_btn_salvar"
+            android:drawableStart="@drawable/ic_check_circle"
+            android:drawablePadding="8dp"
+            android:gravity="center"
+            android:text="@string/btn_salvar_exercicio"
+            android:textColor="#121212"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

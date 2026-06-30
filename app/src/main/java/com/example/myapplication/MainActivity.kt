@@ -7,14 +7,20 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.myapplication.repository.UsuarioRepository
+import com.example.myapplication.ui.treino.TreinosFragment
+import kotlinx.coroutines.launch
 
 
 class MainActivity : AppCompatActivity() {
+
+    private val usuarioRepository = UsuarioRepository()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,6 +33,11 @@ class MainActivity : AppCompatActivity() {
 
         val bottomNav = findViewById<BottomNavigationView>(R.id.bottomNavigation)
 
+        lifecycleScope.launch {
+            val isAdmin = usuarioRepository.usuarioAtualEhAdmin()
+            bottomNav.menu.findItem(R.id.nav_treinos).isVisible = !isAdmin
+        }
+
         bottomNav.setOnItemSelectedListener { item ->
 
             when (item.itemId) {
@@ -36,7 +47,7 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 R.id.nav_treinos -> {
-                    loadFragment(TreinoFragment())
+                    loadFragment(TreinosFragment.newInstance())
                     true
                 }
 
@@ -46,7 +57,7 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 R.id.nav_agenda -> {
-                    //loadFragment(TreinoFragment())
+                    loadFragment(AgendaFragment())
                     true
                 }
 
